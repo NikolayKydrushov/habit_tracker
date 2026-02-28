@@ -2,4 +2,9 @@ from django.apps import AppConfig
 
 
 class HabitsConfig(AppConfig):
-    name = "habits"
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'habits'
+
+    # def ready(self):
+    #     """Импортируем сигналы при готовности приложения."""
+    #     import habits.signals  # если будут сигналы
