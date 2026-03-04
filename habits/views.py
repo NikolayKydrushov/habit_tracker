@@ -1,12 +1,10 @@
-from rest_framework import viewsets, status, generics
-from rest_framework.response import Response
+from rest_framework import viewsets, generics
 from rest_framework.permissions import IsAuthenticated
 from .models import Habit
 from .serializers import HabitSerializer
 from .permissions import IsOwner
 from .paginations import StandardResultsSetPagination
 from drf_yasg.utils import swagger_auto_schema
-from drf_yasg import openapi
 
 
 class HabitViewSet(viewsets.ModelViewSet):

@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from .models import TelegramUser
 
 
 class TelegramLinkSerializer(serializers.Serializer):

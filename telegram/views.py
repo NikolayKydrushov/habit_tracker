@@ -5,7 +5,6 @@ from rest_framework import status
 from django.contrib.auth import get_user_model
 from .serializers import TelegramLinkSerializer
 from .models import TelegramUser
-from .bot import send_message_sync
 
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
