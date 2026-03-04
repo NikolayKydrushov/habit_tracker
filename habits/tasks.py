@@ -1,7 +1,5 @@
 from celery import shared_task
-from datetime import datetime, timedelta
 from django.utils import timezone
-from django.db.models import Q
 from .models import Habit
 from telegram.services import send_habit_reminder_to_user
 import logging
@@ -28,7 +26,7 @@ def check_and_send_habit_reminders():
         time__minute=current_minute,
         is_pleasant=False,  # Напоминаем только о полезных привычках
         user__tg_chat_id__isnull=False,  # Только пользователи с привязанным Telegram
-    ).select_related('user')
+    ).select_related("user")
 
     if not habits_to_remind.exists():
         logger.info("Нет привычек для напоминания в текущее время")
@@ -42,11 +40,8 @@ def check_and_send_habit_reminders():
         if days_since_created % habit.periodicity == 0:
             user_id = habit.user.id
             if user_id not in user_habits:
-                user_habits[user_id] = {
-                    'user': habit.user,
-                    'habits': []
-                }
-            user_habits[user_id]['habits'].append(habit)
+                user_habits[user_id] = {"user": habit.user, "habits": []}
+            user_habits[user_id]["habits"].append(habit)
 
     # Отправляем напоминания каждому пользователю
     total_sent = 0
@@ -55,13 +50,16 @@ def check_and_send_habit_reminders():
             # Вызываем синхронную функцию отправки
             # Celery сам создает асинхронность на уровне задач
             sent = send_habit_reminder_to_user(
-                user=user_data['user'],
-                habits=user_data['habits']
+                user=user_data["user"], habits=user_data["habits"]
             )
             total_sent += sent
-            logger.info(f"Отправлено {sent} напоминаний пользователю {user_data['user'].username}")
+            logger.info(
+                f"Отправлено {sent} напоминаний пользователю {user_data['user'].username}"
+            )
         except Exception as e:
-            logger.error(f"Ошибка при отправке напоминаний пользователю {user_data['user'].username}: {e}")
+            logger.error(
+                f"Ошибка при отправке напоминаний пользователю {user_data['user'].username}: {e}"
+            )
 
     return f"Отправлено напоминаний: {total_sent}"
 

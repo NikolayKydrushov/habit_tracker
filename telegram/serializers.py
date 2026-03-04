@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import TelegramUser
+
 
 class TelegramLinkSerializer(serializers.Serializer):
     tg_chat_id = serializers.CharField(max_length=50)

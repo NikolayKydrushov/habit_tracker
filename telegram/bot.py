@@ -11,6 +11,7 @@ else:
     bot = None
     logger.warning("TELEGRAM_BOT_TOKEN не указан. Telegram-интеграция отключена.")
 
+
 async def send_telegram_message(chat_id: str, text: str) -> bool:
     """
     Отправляет сообщение через Telegram Bot API.
@@ -27,6 +28,7 @@ async def send_telegram_message(chat_id: str, text: str) -> bool:
     except Exception as e:
         logger.error(f"Ошибка отправки в Telegram (chat_id: {chat_id}): {e}")
         return False
+
 
 def send_message_sync(chat_id: str, text: str) -> bool:
     """Синхронная обёртка для отправки сообщений."""

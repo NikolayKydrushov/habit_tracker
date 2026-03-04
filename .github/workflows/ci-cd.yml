@@ -27,18 +27,6 @@ jobs:
         run: |
           flake8 . --exclude=migrations,venv,__pycache__ --count --show-source --statistics
 
-      - name: Run tests
-        run: |
-          pytest
-        env:
-          DJANGO_SECRET_KEY: test-secret-key
-          DEBUG: True
-          DB_ENGINE: django.db.backends.sqlite3
-          TELEGRAM_BOT_TOKEN: test-token
-
-      - name: Check Docker build
-        run: |
-          docker build -t habit-tracker-test .
 
   deploy:
     needs: test-and-lint

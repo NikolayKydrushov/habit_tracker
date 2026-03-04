@@ -52,9 +52,13 @@ def send_habit_reminder_to_user(user, habits: List[Habit]) -> int:
         success = send_message_sync(user.tg_chat_id, message)
         if success:
             sent_count += 1
-            logger.debug(f"Отправлено напоминание о привычке {habit.id} пользователю {user.username}")
+            logger.debug(
+                f"Отправлено напоминание о привычке {habit.id} пользователю {user.username}"
+            )
         else:
-            logger.error(f"Не удалось отправить напоминание о привычке {habit.id} пользователю {user.username}")
+            logger.error(
+                f"Не удалось отправить напоминание о привычке {habit.id} пользователю {user.username}"
+            )
 
     return sent_count
 
@@ -62,9 +66,8 @@ def send_habit_reminder_to_user(user, habits: List[Habit]) -> int:
 def get_active_telegram_users():
     """Возвращает активных пользователей с привязанным Telegram."""
     return TelegramUser.objects.filter(
-        is_active=True,
-        user__tg_chat_id__isnull=False
-    ).select_related('user')
+        is_active=True, user__tg_chat_id__isnull=False
+    ).select_related("user")
 
 
 def send_habit_reminders(habits: Optional[List[Habit]] = None) -> int:
